@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training
+  namespace: sugiyama-demo
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+      - name: get-code
+        image: alpine/git
+        command:
+        - git
+        - clone
+        - https://github.com/IMOKURI/image-competition-baseline.git
+        - /working
+        volumeMounts:
+        - mountPath: /working
+          name: working
+      containers:
+      - name: training
+        image: quay.io/yoshio_sugiyama/torch-image-baseline:1.9.0
+        command:
+        - make
+        volumeMounts:
+        - mountPath: /app/inputs
+          name: inputs
+          subPath: cassava/inputs
+        - mountPath: /app/working
+          name: working
+        - mountPath: /app/outputs
+          name: outputs
+      volumes:
+      - name: inputs
+        persistentVolumeClaim:
+          claimName: pvc-sv1
+      - name: working
+        emptyDir: {}
+      - name: outputs
+        emptyDir: {}
+
