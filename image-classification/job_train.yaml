@@ -27,6 +27,15 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
+        env:
+          - name: XDG_CACHE_HOME
+            value: /app/cache/.cache
+          - name: XDG_CONFIG_HOME
+            value: /app/cache/.config
+          - name: http_proxy
+            value: ""
+          - name: https_proxy
+            value: ""
         volumeMounts:
         - mountPath: /app/inputs
           name: inputs
@@ -35,6 +44,8 @@ spec:
           name: working
         - mountPath: /app/outputs
           name: outputs
+        - mountPath: /app/cache
+          name: cache
       volumes:
       - name: inputs
         persistentVolumeClaim:
@@ -42,5 +53,7 @@ spec:
       - name: working
         emptyDir: {}
       - name: outputs
+        emptyDir: {}
+      - name: cache
         emptyDir: {}
 
