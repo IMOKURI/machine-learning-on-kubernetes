@@ -23,6 +23,9 @@ spec:
         image: quay.io/yoshio_sugiyama/torch-image-baseline:1.9.0
         command:
         - make
+        resources:
+          limits:
+            nvidia.com/gpu: 1
         volumeMounts:
         - mountPath: /app/inputs
           name: inputs
