@@ -13,8 +13,17 @@ push: ## Push docker image
 	@docker push quay.io/yoshio_sugiyama/torch-image-baseline:1.9.0
 
 
-test: ## Test docker image
+test-local: ## Test docker image
 	@docker run --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:1.9.0 make debug_train
+
+
+shell-local: ## Run interactive shell
+	@docker run -it --rm --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:1.9.0 bash
+
+
+run: ## Run training on kubernetes
+	@oc delete -f ./job_train.yaml || :
+	@oc apply -f ./job_train.yaml
 
 
 help: ## Show this help
