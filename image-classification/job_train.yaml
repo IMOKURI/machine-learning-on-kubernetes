@@ -26,7 +26,7 @@ spec:
         - train.py
         resources:
           limits:
-            nvidia.com/gpu: 8
+            nvidia.com/gpu: 2
         env:
           # - name: CUDA_VISIBLE_DEVICES
           #   value: "0:0,1:1,2:2,3:0"
@@ -50,6 +50,10 @@ spec:
           subPath: cassava/cache
         - mountPath: /app/working
           name: working
+        # https://github.com/kubernetes/kubernetes/issues/28272#issuecomment-875229618
+        # ERROR: Unexpected bus error encountered in worker. This might be caused by insufficient shared memory (shm)
+        # PyTorchはプロセス間のデータ共有に共有メモリを使用するため、torchのマルチプロセッシングを使用する場合
+        # (マルチスレッドのデータローダなど)、コンテナが実行するデフォルトの共有メモリセグメントサイズでは十分ではない。
         - mountPath: /dev/shm
           name: shm
       volumes:
@@ -63,6 +67,6 @@ spec:
       - name: shm
         emptyDir:
           medium: Memory
-      # nodeSelector:
-      #   nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
 
