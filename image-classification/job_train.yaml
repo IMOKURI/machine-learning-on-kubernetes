@@ -26,8 +26,10 @@ spec:
         - train.py
         resources:
           limits:
-            nvidia.com/gpu: 1
+            nvidia.com/gpu: 8
         env:
+          # - name: CUDA_VISIBLE_DEVICES
+          #   value: "0:0,1:1,2:2,3:0"
           - name: XDG_CACHE_HOME
             value: /app/cache/.cache
           - name: XDG_CONFIG_HOME
@@ -38,22 +40,29 @@ spec:
             value: ""
         volumeMounts:
         - mountPath: /app/inputs
-          name: inputs
+          name: nfs
           subPath: cassava/inputs
+        - mountPath: /app/outputs
+          name: nfs
+          subPath: cassava/outputs
+        - mountPath: /app/cache
+          name: nfs
+          subPath: cassava/cache
         - mountPath: /app/working
           name: working
-        - mountPath: /app/outputs
-          name: outputs
-        - mountPath: /app/cache
-          name: cache
+        - mountPath: /dev/shm
+          name: shm
       volumes:
-      - name: inputs
+      - name: nfs
         persistentVolumeClaim:
           claimName: pvc-sv1
       - name: working
-        emptyDir: {}
-      - name: outputs
-        emptyDir: {}
-      - name: cache
-        emptyDir: {}
+        # emptyDir: {}
+        emptyDir:
+          medium: Memory
+      - name: shm
+        emptyDir:
+          medium: Memory
+      # nodeSelector:
+      #   nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
 
