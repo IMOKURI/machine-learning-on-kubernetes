@@ -22,8 +22,11 @@ shell-local: ## Run interactive shell
 
 
 run: ## Run training on kubernetes
+	@oc create -f ./job_train.yaml
+
+
+clean: ## Clean up pod
 	@oc delete -f ./job_train.yaml || :
-	@oc apply -f ./job_train.yaml
 
 
 help: ## Show this help
