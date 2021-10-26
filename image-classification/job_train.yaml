@@ -72,4 +72,4 @@ spec:
           medium: Memory
       nodeSelector:
         nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
-
+        # nvidia.com/gpu.product: Tesla-T4
