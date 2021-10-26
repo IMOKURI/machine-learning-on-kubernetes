@@ -4,6 +4,8 @@ metadata:
   name: training
   namespace: sugiyama-demo
 spec:
+  # completions: 20
+  # parallelism: 20
   template:
     spec:
       restartPolicy: Never
@@ -25,10 +27,10 @@ spec:
         command:
         - python
         - train.py
-        - settings.debug=True
+        # - settings.debug=True
         resources:
           limits:
-            nvidia.com/gpu: 2
+            nvidia.com/gpu: 1
             # nvidia.com/mig-3g.20gb: 1
         env:
           # - name: CUDA_VISIBLE_DEVICES
