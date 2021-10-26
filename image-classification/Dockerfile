@@ -14,6 +14,7 @@ RUN apt update && \
 RUN pip install --no-cache-dir \
     albumentations==0.4.6 \
     hydra-core \
+    hydra-optuna-sweeper \
     mlflow \
     opencv-python \
     scikit-learn \

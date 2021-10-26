@@ -24,11 +24,11 @@ spec:
         command:
         - python
         - train.py
-        # - settings.debug=True
+        - settings.debug=True
         resources:
           limits:
-            # nvidia.com/gpu: 2
-            nvidia.com/mig-3g.20gb: 1
+            nvidia.com/gpu: 2
+            # nvidia.com/mig-3g.20gb: 1
         env:
           # - name: CUDA_VISIBLE_DEVICES
           #   value: "7"
@@ -69,6 +69,6 @@ spec:
       - name: shm
         emptyDir:
           medium: Memory
-      # nodeSelector:
-      #   nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
 
