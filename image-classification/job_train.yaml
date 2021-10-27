@@ -4,8 +4,8 @@ metadata:
   name: training
   namespace: sugiyama-demo
 spec:
-  # completions: 20
-  # parallelism: 20
+  # completions: 6
+  # parallelism: 6
   template:
     spec:
       restartPolicy: Never
@@ -72,6 +72,6 @@ spec:
       - name: shm
         emptyDir:
           medium: Memory
-      nodeSelector:
-        nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
+      # nodeSelector:
+      #   nvidia.com/gpu.product: NVIDIA-A100-SXM4-40GB-MIG-3g.20gb
         # nvidia.com/gpu.product: Tesla-T4
