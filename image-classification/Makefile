@@ -2,23 +2,25 @@
 .DEFAULT_GOAL := help
 
 NOW = $(shell date '+%Y%m%d-%H%M%S')
+TAG = "1.9.0-cuda10"
+# TAG = "1.9.0"
 
 
 build: ## Build docker image
-	@docker build --build-arg PROXY=$(http_proxy) -t torch-image-baseline:1.9.0 .
+	@docker build --build-arg PROXY=$(http_proxy) -t torch-image-baseline:$(TAG) .
 
 
 push: ## Push docker image
-	@docker tag torch-image-baseline:1.9.0 quay.io/yoshio_sugiyama/torch-image-baseline:1.9.0
-	@docker push quay.io/yoshio_sugiyama/torch-image-baseline:1.9.0
+	@docker tag torch-image-baseline:$(TAG) quay.io/yoshio_sugiyama/torch-image-baseline:$(TAG)
+	@docker push quay.io/yoshio_sugiyama/torch-image-baseline:$(TAG)
 
 
 test-local: ## Test docker image
-	@docker run --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:1.9.0 make debug_train
+	@docker run --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:$(TAG) make debug_train
 
 
 shell-local: ## Run interactive shell
-	@docker run -it --rm --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:1.9.0 bash
+	@docker run -it --rm --gpus '"device=1,2,3"' --shm-size=64g -v /data/jupyter/sugiyama/cassava/inputs:/app/inputs -v /data/jupyter/sugiyama/cassava/working:/app/working torch-image-baseline:$(TAG) bash
 
 
 run: ## Run training on kubernetes
