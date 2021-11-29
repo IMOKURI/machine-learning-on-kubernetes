@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 NOW = $(shell date '+%Y%m%d-%H%M%S')
-TAG = "1.9.0-cuda10"
+TAG = "ngc-21.11"
 # TAG = "1.9.0"
 
 
